@@ -2,15 +2,15 @@ package filter;
 
 import model.User;
 
+
 import javax.servlet.*;
-import javax.servlet.annotation.WebServlet;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/users/*")
-public class UserFilter implements Filter {
-
+@WebFilter(urlPatterns = {"/myItems", "/items/add"})
+public class AuthFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -20,11 +20,11 @@ public class UserFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
+        HttpServletResponse resp = (HttpServletResponse) servletResponse;
         User user = (User) req.getSession().getAttribute("user");
 
         if (user == null) {
-            HttpServletResponse resp = (HttpServletResponse) servletResponse;
-            resp.sendRedirect("/");
+            resp.sendRedirect("/home");
         } else {
             filterChain.doFilter(servletRequest, servletResponse);
         }

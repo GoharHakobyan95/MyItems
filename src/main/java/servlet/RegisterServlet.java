@@ -11,14 +11,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/users/register")
+@WebServlet(urlPatterns = "/register")
 public class RegisterServlet extends HttpServlet {
     private UserManager userManager = new UserManager();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF8");
-        req.getRequestDispatcher("/WEB-INF/registerUser.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/register.jsp").forward(req, resp);
     }
 
     @Override
@@ -27,7 +27,7 @@ public class RegisterServlet extends HttpServlet {
         String email = req.getParameter("email");
         if (userManager.getByEmail(email) != null) {
             req.setAttribute("msg", "User already exists! ");
-            req.getRequestDispatcher("/WEB-INF/registerUser.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/register").forward(req, resp);
         } else {
             String name = req.getParameter("name");
             String surname = req.getParameter("surname");
@@ -40,8 +40,7 @@ public class RegisterServlet extends HttpServlet {
                     .password(password)
                     .build();
             userManager.addUser(user);
-            resp.sendRedirect("/login");
-
         }
+        resp.sendRedirect("/login");
     }
 }

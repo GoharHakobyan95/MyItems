@@ -35,7 +35,23 @@ public class ItemManager {
     }
 
     public List<Item> getItems() {
-        String sql = "SELECT * FROM  item ORDER BY id LIMIT 20";
+        String sql = "SELECT * FROM  item ";
+        List<Item> items = new LinkedList<>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                items.add(getItemFromResulSet(resultSet));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return items;
+    }
+
+    public List<Item> getLast20Items() {
+        String sql = "SELECT * FROM  item ORDER BY id desc LIMIT 20";
         List<Item> items = new LinkedList<>();
         try {
             Statement statement = connection.createStatement();
@@ -51,7 +67,7 @@ public class ItemManager {
     }
 
     public List<Item> userAllItems(int userId) {
-        String sql = "SELECT * FROM  item ORDER BY id LIMIT 20 where id = " + userId;
+        String sql = "SELECT * FROM  item ORDER BY id desc LIMIT 20 where id = " + userId;
         List<Item> items = new LinkedList<>();
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -66,7 +82,7 @@ public class ItemManager {
         return items;
     }
 
-    public List<Item> getItemByCategory(int categoryId) {
+    public List<Item> get20ItemByCategory(int categoryId) {
         String sql = "SELECT * FROM  item ORDER BY id LIMIT 20 where id = " + categoryId;
         List<Item> items = new ArrayList<>();
         try {

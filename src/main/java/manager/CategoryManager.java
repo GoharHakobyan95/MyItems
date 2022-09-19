@@ -34,7 +34,11 @@ public class CategoryManager {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
-                categories.add(getCategoryFromResultSet(resultSet));
+                Category category = Category.builder()
+                        .id(resultSet.getInt("id"))
+                        .name(resultSet.getString("name"))
+                        .build();
+                categories.add(category);
             }
         } catch (SQLException | RuntimeException e) {
             e.printStackTrace();
@@ -48,30 +52,15 @@ public class CategoryManager {
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet resultSet = ps.executeQuery(sql);
             if (resultSet.next()) {
-                return getCategoryFromResultSet(resultSet);
+                return Category.builder()
+                        .id(resultSet.getInt("id"))
+                        .name(resultSet.getString("name"))
+                        .build();
             }
         } catch (SQLException | RuntimeException e) {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public void deleteById(int id) {
-        String sql = "DELETE FROM category where id = " + id;
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.executeUpdate(sql);
-        } catch (SQLException | RuntimeException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    private Category getCategoryFromResultSet(ResultSet resultSet) throws SQLException {
-        return Category.builder()
-                .id(resultSet.getInt("id"))
-                .name(resultSet.getString("name"))
-                .build();
     }
 
 }

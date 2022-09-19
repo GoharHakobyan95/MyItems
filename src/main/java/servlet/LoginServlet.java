@@ -28,11 +28,10 @@ public class LoginServlet extends HttpServlet {
         User user = userManager.getUserByEmailAndPassword(email, password);
         if (user == null){
             req.setAttribute("msg","Email or Password is incorrect.");
-            req.getRequestDispatcher("/WEB-INF/login.jsp").forward(req, resp);
+            resp.sendRedirect("/home");
         }else {
-            HttpSession session = req.getSession();
-            session.setAttribute("user",user);
-            resp.sendRedirect("/");
+             req.getSession().setAttribute("user",user);
+            resp.sendRedirect("/myItems");
         }
     }
 }

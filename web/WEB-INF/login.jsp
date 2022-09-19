@@ -21,6 +21,7 @@
     <p style="color: red"><%=msg%>
     </p>
     <% } %>
+    <a href="/home">Back</a>
     <form action="/login" method="post">
         <input type="email" name="email" placeholder="Please input your email"><br>
         <input type="password" name="password" placeholder="Please input your password"><br>

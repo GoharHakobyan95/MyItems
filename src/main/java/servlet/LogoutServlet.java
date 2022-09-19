@@ -13,6 +13,6 @@ public class LogoutServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getSession().invalidate();
-        resp.sendRedirect("/");
+        resp.sendRedirect("/home");
     }
 }

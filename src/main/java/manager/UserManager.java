@@ -63,8 +63,8 @@ public class UserManager {
         String sql = "SELECT * FROM user  WHERE email = ? and password = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1,email);
-            ps.setString(2,password);
+            ps.setString(1, email);
+            ps.setString(2, password);
             ResultSet resultSet = ps.executeQuery();
             if (resultSet.next()) {
                 return getUserFromResulSet(resultSet);
@@ -79,7 +79,7 @@ public class UserManager {
         String sql = "SELECT * FROM user  WHERE email = ? ";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1,email);
+            ps.setString(1, email);
             ResultSet resultSet = ps.executeQuery();
             if (resultSet.next()) {
                 return getUserFromResulSet(resultSet);
@@ -88,6 +88,16 @@ public class UserManager {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void deleteUserById(int id) {
+        String sql = "delete from user where id = " + id;
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private User getUserFromResulSet(ResultSet resultSet) throws SQLException {
